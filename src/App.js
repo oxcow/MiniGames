@@ -19,7 +19,7 @@ function App() {
         </div>
         <div className="docs-sidebar off-canvas-sidebar" id="sidebar">
           <div className="docs-brand">
-            Game Lists
+            游戏列表
           </div>
           <div className="docs-nav" style={{width: "auto"}}>
             <div className="accordion-container">

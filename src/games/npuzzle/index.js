@@ -31,34 +31,40 @@ class Board extends React.Component {
 class PuzzleGame extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.initialization();
+    this.state = this.initialization(3);
   }
 
-  initialization() {
+  initialization(matrixN) {
     return {
       stepNumber: 0,
       solved: false,
-      matrixN: 3,
+      matrixN: matrixN,
       history: [
         {
-          puzzles: Utils.getSolvablePuzzleNumbers(3),
-          nullIndex: 8,
+          puzzles: Utils.getSolvablePuzzleNumbers(matrixN),
+          nullIndex: matrixN * matrixN - 1,
         },
       ],
     }
   }
 
+  changeMatrix(matrixN) {
+    if (matrixN !== this.state.matrixN) {
+      this.setState(this.initialization(matrixN));
+    }
+  }
+
   getOffset(index) {
-    const row = Math.floor(index / 3);
-    const col = index % 3;
+    const row = Math.floor(index / this.state.matrixN);
+    const col = index % this.state.matrixN;
     return {R: row, C: col};
   }
 
   canExchange(nullIndex, clickIndex) {
     const nullOffset = this.getOffset(nullIndex);
     const clickOffset = this.getOffset(clickIndex);
-    return nullOffset.R === clickOffset.R && Math.abs(nullOffset.C - clickOffset.C) === 1 ||
-      nullOffset.C === clickOffset.C && Math.abs(nullOffset.R - clickOffset.R) === 1;
+    return (nullOffset.R === clickOffset.R && Math.abs(nullOffset.C - clickOffset.C) === 1) ? true :
+      (nullOffset.C === clickOffset.C && Math.abs(nullOffset.R - clickOffset.R) === 1);
   }
 
   doExchange(puzzles, k, v, nullIndex) {
@@ -146,8 +152,22 @@ class PuzzleGame extends React.Component {
 
     return (
       <GameContainer title="数字华容道" jumpTo={moves} message={message}>
+        <div className="form-group">
+          <label className="form-label form-inline col-sm-2 col-2">选择难度</label>
+          {
+            [3, 4, 5].map((ele, index) => {
+              const checked = this.state.matrixN === ele ? 'checked' : '';
+              return (
+                <label className="form-radio form-inline" key={index}>
+                  <input type="radio" name="matrixN" checked={checked} onChange={() => this.changeMatrix(ele)}/>
+                  <i className="form-icon"></i> {ele}
+                </label>
+              )
+            })
+          }
+        </div>
         <div className="puzzle-game">
-          <div className="puzzle-game-board">
+          <div className="puzzle-game-board" style={{width: this.state.matrixN * 100}}>
             <Board
               puzzles={current.puzzles}
               onClick={(k, v) => this.handleClick(k, v)}

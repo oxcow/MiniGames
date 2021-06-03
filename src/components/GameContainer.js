@@ -7,8 +7,8 @@ export default function GameContainer(props) {
         {props.title}
       </h3>
       {props.children}
-      <JumpTo {...props}/>
-      <GameConsole {...props}/>
+      {/*<JumpTo {...props}/>*/}
+      {/*<GameConsole {...props}/>*/}
       <PopUp {...props.message}/>
     </>
   )
