@@ -132,7 +132,7 @@ class PuzzleGame extends React.Component {
       solved: isSolved,
       message: 'Congratulations!',
       handleCloseEvent: () => {
-        this.setState(this.initialization());
+        this.setState(this.initialization(this.state.matrixN));
       }
     }
 

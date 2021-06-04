@@ -119,10 +119,9 @@ export class Game extends React.Component {
 
       return (
         <li key={move}>
-          <a href='#'
-             onClick={() => this.jumpTo(move)}>
+          <button onClick={() => this.jumpTo(move)}>
             {desc}
-          </a>
+          </button>
         </li>
       );
     });

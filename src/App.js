@@ -33,7 +33,6 @@ function App() {
             </div>
           </div>
         </div>
-        <a className="off-canvas-overlay" href="#close"></a>
         <div className="off-canvas-content">
           <div className="docs-content" id="content">
             <div className="container">
