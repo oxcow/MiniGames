@@ -167,7 +167,7 @@ class PuzzleGame extends React.Component {
           }
         </div>
         <div className="puzzle-game">
-          <div className="puzzle-game-board" style={{width: this.state.matrixN * 100}}>
+          <div className={`puzzle-game-board-${this.state.matrixN}`}>
             <Board
               puzzles={current.puzzles}
               onClick={(k, v) => this.handleClick(k, v)}

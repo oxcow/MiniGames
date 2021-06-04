@@ -47,13 +47,27 @@
     justify-content: center;
 }
 
-.puzzle-game-board {
+.puzzle-game-board-3 {
     width: 300px;
 }
+.puzzle-game-board-4 {
+    width: 360px;
+}
+.puzzle-game-board-5 {
+    width: 375px;
+}
 
-.puzzle-game-board .square {
+.puzzle-game-board-3 .square {
     width: 100px;
     height: 100px;
+}
+.puzzle-game-board-4 .square {
+    width: 90px;
+    height: 90px;
+}
+.puzzle-game-board-5 .square {
+    width: 75px;
+    height: 75px;
 }
 
 .puzzle-game-info {
