@@ -1,5 +1,4 @@
-// import logo from './logo.svg';
-import './App.css';
+/* eslint-disable jsx-a11y/anchor-has-content */
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import routeConfig from "./router.config";
 import "spectre.css/dist/spectre.min.css";
@@ -10,7 +9,7 @@ import React from "react";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/mini-games">
       <div className="docs-container off-canvas off-canvas-sidebar-show">
         <div className="docs-navbar">
           <a className="off-canvas-toggle btn btn-link btn-action" href="#sidebar">
@@ -33,6 +32,7 @@ function App() {
             </div>
           </div>
         </div>
+        <a className="off-canvas-overlay" href="#close"></a>
         <div className="off-canvas-content">
           <div className="docs-content" id="content">
             <div className="container">

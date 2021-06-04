@@ -153,7 +153,7 @@ class PuzzleGame extends React.Component {
     return (
       <GameContainer title="数字华容道" jumpTo={moves} message={message}>
         <div className="form-group">
-          <label className="form-label form-inline col-sm-2 col-2">选择难度</label>
+          <label className="form-label form-inline col-sm-2 col-2">难度:</label>
           {
             [3, 4, 5].map((ele, index) => {
               const checked = this.state.matrixN === ele ? 'checked' : '';
