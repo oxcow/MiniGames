@@ -4,6 +4,7 @@ import TetrisGames from "./games/tetris";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import ReactTetris from "./games/tetris/new/ReactTetris";
+import SnakeGame from "./games/snake";
 
 export const routeConfig = [
   {
@@ -18,9 +19,13 @@ export const routeConfig = [
     path: "/tetris",
     name: "俄罗斯方块",
   },
+  // {
+  //   path: "/react_tetris",
+  //   name: "俄罗斯方块(react)",
+  // },
   {
-    path: "/react_tetris",
-    name: "俄罗斯方块(react)",
+    path: "/h5_snake",
+    name: "贪吃蛇(H5 Canvas)",
   },
 ];
 
@@ -44,7 +49,11 @@ const router = createBrowserRouter([
       {
         path: '/react_tetris',
         element: <ReactTetris />,
-      }
+      },
+      {
+        path: '/h5_snake',
+        element: <SnakeGame />,
+      },
     ]
   },
 ]);
