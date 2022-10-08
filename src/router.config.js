@@ -1,23 +1,52 @@
-import {Game as TicTacToeGame} from "./games/tictactoe";
+import { Game as TicTacToeGame } from "./games/tictactoe";
 import PuzzleGame from "./games/npuzzle";
-import TetrisGame from "./games/tetris";
+import TetrisGames from "./games/tetris";
+import { createBrowserRouter } from "react-router-dom";
+import App from "./App";
+import ReactTetris from "./games/tetris/new/ReactTetris";
 
-const routeConfig = [
+export const routeConfig = [
   {
     path: "/tac",
     name: "React Demo",
-    component: TicTacToeGame,
   },
   {
     path: '/nPuzzle',
     name: "数字华容道",
-    component: PuzzleGame,
   },
   {
     path: "/tetris",
     name: "俄罗斯方块",
-    component: TetrisGame,
+  },
+  {
+    path: "/react_tetris",
+    name: "俄罗斯方块(react)",
   },
 ];
 
-export default routeConfig
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/tac',
+        element: <TicTacToeGame />,
+      },
+      {
+        path: '/nPuzzle',
+        element: <PuzzleGame />,
+      },
+      {
+        path: '/tetris',
+        element: <TetrisGames />,
+      },
+      {
+        path: '/react_tetris',
+        element: <ReactTetris />,
+      }
+    ]
+  },
+]);
+
+export default router;

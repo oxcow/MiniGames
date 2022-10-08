@@ -1,0 +1,77 @@
+body {
+    margin-left: 60px;
+    margin-top: 20px;
+}
+
+#TetrisGame {
+    width: 434px;
+    height: 442px;
+    border: 0px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#canvas {
+    width: 200px;
+    height: 440px;
+    border: 0px solid green;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#canvas span {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #eee;
+    font-size: 12px;
+}
+
+#controlPanel {
+    width: 212px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#preCanvas {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#preCanvas span {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+}
+
+#control {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#control label {
+    width: 150px;
+    font-family: cursive;
+}
+
+#control button {
+    width: 150px;
+    margin: 15px 0px 13px 0px;
+}
+
+#score, #level {
+    color: red;
+}
+
+#debug {
+    display: none;
+    width: 434px;
+    height: 200px;
+    font-size: 11px;
+    border-width: 0;
+}
