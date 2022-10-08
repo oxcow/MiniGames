@@ -3,7 +3,7 @@ import PuzzleGame from "./games/npuzzle";
 import TetrisGames from "./games/tetris";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ReactTetris from "./games/tetris/new/ReactTetris";
+// import ReactTetris from "./games/tetris/new/ReactTetris";
 import SnakeGame from "./games/snake";
 
 export const routeConfig = [
@@ -46,10 +46,10 @@ const router = createBrowserRouter([
         path: '/tetris',
         element: <TetrisGames />,
       },
-      {
-        path: '/react_tetris',
-        element: <ReactTetris />,
-      },
+      // {
+      //   path: '/react_tetris',
+      //   element: <ReactTetris />,
+      // },
       {
         path: '/h5_snake',
         element: <SnakeGame />,
