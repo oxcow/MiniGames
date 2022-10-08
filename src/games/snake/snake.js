@@ -20,7 +20,7 @@ export const Constant = {
   CreateArray: function (min, max, factor) {
     var _array_ = [];
     for (var n = min; n < max; n++) {
-      if (n % factor == 0) {
+      if (n % factor === 0) {
         _array_.push(n);
       }
     }
@@ -42,7 +42,7 @@ export const Constant = {
     var _tar_ = aTarget.join("");
     var _sameItem_ = false;
     for (var i = 0; i < _iLen_; i++) {
-      if (_tar_ == arraySet[i].join("")) {
+      if (_tar_ === arraySet[i].join("")) {
         _sameItem_ = true;
         break;
       }
@@ -171,7 +171,7 @@ export const SnakeGame = {
     var iFood = this.snake.moveAndEat(this.food, this.canvas_width, this.canvas_height);
     this.scoreAndSpeed(iFood);
     this.gameover();
-    if (this.status == SnakeGameConstant.GAMEOVER) {
+    if (this.status === SnakeGameConstant.GAMEOVER) {
       this.frameSubtitle("G A M E   O V E R !");
       this.destroy();
       return;
@@ -179,13 +179,13 @@ export const SnakeGame = {
 
     this.renderCanvas();
 
-    if (this.status == SnakeGameConstant.INIT
-      | this.status == SnakeGameConstant.STOP) {
+    if (this.status === SnakeGameConstant.INIT
+      | this.status === SnakeGameConstant.STOP) {
       this.status = SnakeGameConstant.START;
       this.timeclock = setInterval(() => this.frame(), this.speed);
       // console.log("start up ");
     }
-    if (this.status == SnakeGameConstant.SPEDDUP) {
+    if (this.status === SnakeGameConstant.SPEDDUP) {
       clearTimeout(this.timeclock);
       this.status = SnakeGameConstant.START;
       // this.timeclock = setInterval("SnakeGame.frame('" + Constant.CANVAS_ID + "')", this.speed);
@@ -200,9 +200,9 @@ export const SnakeGame = {
    * @param iFood
    */
   scoreAndSpeed: function (iFood) {
-    if (iFood != 0) {
+    if (iFood !== 0) {
       this.score = this.score + iFood * 100;
-      if (this.score % 500 == 0) {
+      if (this.score % 500 === 0) {
         this.speed = this.speed - 100;
         this.status = SnakeGameConstant.SPEDDUP;
       }
@@ -217,7 +217,7 @@ export const SnakeGame = {
     if (!this.status) {
       this.init(Constant.CANVAS_ID, this.speed, 0).frame();
     }
-    if (this.status == SnakeGameConstant.STOP) {
+    if (this.status === SnakeGameConstant.STOP) {
       this.frame();
     }
   },
@@ -226,7 +226,7 @@ export const SnakeGame = {
    * 游戏暂停事件
    */
   stop: function () {
-    if (this.status != SnakeGameConstant.STOP) {
+    if (this.status !== SnakeGameConstant.STOP) {
       this.maskLayer();
       clearTimeout(this.timeclock);
       this.frameSubtitle("暂停中……")
@@ -317,9 +317,11 @@ export const Snake = {
       case 40:// down
         this.head = [_head[0], _head[1] + Constant.UNIT_LEN];
         break;
+      default:
+        console.debug("do nothing");
     }
     this.body.push(_head);
-    if (food && _head[0] == food.X && _head[1] == food.Y) {
+    if (food && _head[0] === food.X && _head[1] === food.Y) {
       _foods_ = 1;
       // console.log("snake body ", this.head, this.body, this.tail);
       var _tmp_ = [].concat(this.body);
@@ -347,13 +349,13 @@ export const Snake = {
     ctx.save();
     // 移动坐标。X\Y各偏移Snake.head[0]+10
     ctx.translate(this.head[0] + Constant.UNIT_LEN / 2, this.head[1] + Constant.UNIT_LEN / 2);
-    if (this.direction == 40) {
+    if (this.direction === 40) {
       ctx.rotate(Math.PI / 2); // 顺时针旋转坐标系90°(方向朝下)
     }
-    if (this.direction == 38) {
+    if (this.direction === 38) {
       ctx.rotate(-Math.PI / 2);// 逆时针旋转坐标系90°(方向朝上)
     }
-    if (this.direction == 37) {
+    if (this.direction === 37) {
       ctx.scale(-1, 1); // 对折X轴 (方向朝左)
     }
     ctx.fillStyle = Constant.HEAD_COLOR;

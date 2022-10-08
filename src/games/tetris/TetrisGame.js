@@ -225,6 +225,8 @@ class TetrisGame {
       case "ArrowRight":
         this.leftOrRightMove('right');
         break;
+      default:
+        console.debug("do nothing");
     }
   }
 

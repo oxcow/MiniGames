@@ -117,6 +117,8 @@ class Tetris {
       case 6:
         oTetris = new J_Tetris(iAxis, iAngle);
         break;
+      default:
+        console.debug("do nothing");
     }
     return oTetris;
   }
@@ -183,6 +185,8 @@ class I_Tetris extends Tetris {
       case 270:
         iBody = [iAxis - Tetris.COLUMN, iAxis, iAxis + Tetris.COLUMN, iAxis + 2 * Tetris.COLUMN];
         break;
+      default:
+        console.debug("do nothing");
     }
     return iBody;
   }
@@ -232,6 +236,8 @@ class L_Tetris extends Tetris {
       case 270:
         lBody = [iAxis - 1, iAxis, iAxis + 1, iAxis - Tetris.COLUMN + 1];
         break;
+      default:
+        console.debug("do nothing");
     }
     return lBody;
   }
@@ -282,6 +288,8 @@ class J_Tetris extends Tetris {
       case 270:
         jBody = [iAxis - 1, iAxis, iAxis + 1, iAxis + Tetris.COLUMN + 1];
         break;
+      default:
+        console.debug("do nothing");
     }
     return jBody;
   }
@@ -332,6 +340,8 @@ class T_Tetris extends Tetris {
       case 270:
         tBody = [iAxis + Tetris.COLUMN, iAxis, iAxis - Tetris.COLUMN, iAxis + 1];
         break;
+      default:
+        console.debug("do nothing");
     }
     return tBody;
   }
@@ -378,6 +388,8 @@ class S_Tetris extends Tetris {
       case 270:
         __sBody = [iAxis - Tetris.COLUMN, iAxis, iAxis + 1, iAxis + Tetris.COLUMN + 1];
         break;
+      default:
+        console.debug("do nothing");
     }
     return __sBody;
   }
@@ -424,6 +436,8 @@ class Z_Tetris extends Tetris {
       case 270:
         zBody = [iAxis - Tetris.COLUMN, iAxis, iAxis - 1, iAxis + Tetris.COLUMN - 1];
         break;
+      default:
+        console.debug("do nothing");
     }
     return zBody;
   }

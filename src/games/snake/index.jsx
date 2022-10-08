@@ -17,10 +17,10 @@ const SnakeGame = () => {
 
   document.onkeydown = (e) => {
     e.preventDefault();
-    if (e.which > 36 && e.which < 41 && Math.abs(Snake.direction - e.which) != 2) {
+    if (e.which > 36 && e.which < 41 && Math.abs(Snake.direction - e.which) !== 2) {
       Snake.direction = e.which;
     }
-    if (e.code == 'Space') {
+    if (e.code === 'Space') {
       snakeGame.stop();
     }
   }
