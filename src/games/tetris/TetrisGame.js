@@ -263,6 +263,10 @@ class TetrisGame {
    * 重置游戏
    */
   reset() {
+    if (!this.tetris) {
+      console.log("尚未有初始化的Tetris,忽略Reset操作！");
+      return;
+    }
     this.tetris.eraser();
     this.body.forEach(ele => {
       let _oE = document.getElementById(ele);
