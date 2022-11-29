@@ -35,6 +35,9 @@ const ReactSnakeGame = () => {
     for (let i = 0; i < 20; i++) {
       _dataMatrix.push(new Array(30).fill(0));
     }
+    for (const point of snake.getSnake()) {
+      _dataMatrix[point.y][point.x] = 1;
+    }
     setDataMatrix(_dataMatrix);
   }, []);
 
