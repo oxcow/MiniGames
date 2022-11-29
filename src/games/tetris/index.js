@@ -3,23 +3,24 @@ import './index.css';
 import TetrisGame from "./TetrisGame";
 import GameContainer from "../../components/GameContainer";
 
+window.onload = function () {
+  const oTetrisGame = new TetrisGame();
+  oTetrisGame.preload();
+  document.onkeydown = function (event) {
+    oTetrisGame.keyboardEventsListeners(event);
+  };
+  document.getElementById('start').onclick = function () {
+    oTetrisGame.start();
+  };
+  document.getElementById('stop').onclick = function () {
+    oTetrisGame.stop();
+  };
+  document.getElementById('restart').onclick = function () {
+    oTetrisGame.reset();
+  };
+}
+
 export default function TetrisGames() {
-  window.onload = function () {
-    const oTetrisGame = new TetrisGame();
-    oTetrisGame.preload();
-    document.onkeydown = function (event) {
-      oTetrisGame.keyboardEventsListeners(event);
-    };
-    document.getElementById('start').onclick = function () {
-      oTetrisGame.start();
-    };
-    document.getElementById('stop').onclick = function () {
-      oTetrisGame.stop();
-    };
-    document.getElementById('restart').onclick = function () {
-      oTetrisGame.reset();
-    };
-  }
   return (
     <GameContainer title="纯JS实现俄罗斯方块">
       <div id="TetrisGame">
