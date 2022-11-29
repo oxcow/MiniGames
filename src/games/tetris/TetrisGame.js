@@ -1,5 +1,5 @@
-import { Canvas, PreCanvas } from "./Canvas";
-import { Tetris } from "./Tetris";
+import {Canvas, PreCanvas} from "./Canvas";
+import {Tetris} from "./Tetris";
 import Utils from "./Utils";
 
 /**
@@ -89,6 +89,7 @@ class TetrisGame {
           this.tetris.body = temp;//// 清除掉数组中未定义的元素
           this.body.splice(0, this.tetris.body.length);// 从已占格子中清除上层各式
           this.tetris.move(10);// 上层格子下移
+          temp = this.tetris.body; // 下移动后需要更新temp
           this.body = this.tetris.body.concat(this.body);// 将移动后的上层格子添加到已占格子的前端
         }
         iRow++;
@@ -278,6 +279,7 @@ class TetrisGame {
     //this.stop();
   }
 }
+
 export default TetrisGame;
 
 // window.onload = function () {
