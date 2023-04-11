@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GameContainer from '../../components/GameContainer';
 import { Constant, Snake, SnakeGame as _SnakeGame } from './snake';
 import './index.css';
