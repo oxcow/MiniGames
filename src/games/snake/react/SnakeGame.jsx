@@ -1,66 +1,48 @@
 import GameContainer from "../../../components/GameContainer";
 import './index.scss';
-import {useEffect, useState} from "react";
-import Snake, {Point} from "./Snake";
-
-const snake = new Snake(new Point(9, 10), new Point(12, 10), [new Point(10, 10), new Point(11, 10)]);
-let _food = new Point(22, 10);
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {
+  moveAndEat,
+  renderGame,
+  selectDataMatrix,
+  selectFood, start, stop, directController,
+} from "./snakeGameSlice";
 
 const ReactSnakeGame = () => {
-  const [dataMatrix, setDataMatrix] = useState([]);
-  const [timer, setTimer] = useState(0);
-  const [food, setFood] = useState(_food);
 
-  const eatFood = () => {
-    const x = Math.floor(Math.random() * 30);
-    const y = Math.floor(Math.random() * 20);
-    _food = new Point(x, y);
-    setFood(_food);
-  }
-  const frame = () => {
-    const _snake = snake.moveAndEat(_food, eatFood).getSnake();
-
-    const _dataMatrix = [];
-    for (let i = 0; i < 20; i++) {
-      _dataMatrix.push(new Array(30).fill(0));
-    }
-    for (const point of _snake) {
-      _dataMatrix[point.y][point.x] = 1;
-    }
-    setDataMatrix(_dataMatrix);
-  }
+  const dataMatrix = useSelector(selectDataMatrix);
+  const food = useSelector(selectFood);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const _dataMatrix = [];
-    for (let i = 0; i < 20; i++) {
-      _dataMatrix.push(new Array(30).fill(0));
-    }
-    for (const point of snake.getSnake()) {
-      _dataMatrix[point.y][point.x] = 1;
-    }
-    setDataMatrix(_dataMatrix);
-  }, []);
+    dispatch(renderGame());
+  }, [dispatch]);
 
+  const frame = () => {
+    dispatch(moveAndEat());
+    dispatch(renderGame());
+  }
 
   const handleStart = (e) => {
     e.preventDefault();
     const timerId = setInterval(frame, 1000);
-    console.log("======> timeId", timerId);
-    setTimer(timerId);
+    dispatch(start(timerId))
   }
+
   const handleStop = (e) => {
     e.preventDefault();
-    clearInterval(timer);
+    dispatch(stop());
   }
 
   const handleReset = (e) => {
     e.preventDefault();
-    clearInterval(timer);
+    dispatch(stop());
   }
 
   document.onkeydown = (e) => {
     e.preventDefault();
-    snake.changeDirection(e.code);
+    dispatch(directController(e.code))
   };
 
   return (

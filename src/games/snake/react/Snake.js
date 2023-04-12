@@ -44,8 +44,9 @@ class Snake {
     }
   }
 
-  moveAndEat = (food, eatCallback) => {
+  moveAndEat = (food) => {
     let nextHead;
+    let eaten = false;
     switch (this.direction) {
       case Direction.DOWN:
         nextHead = new Point(this.head.x, this.head.y - 1);
@@ -62,14 +63,14 @@ class Snake {
     if (nextHead && nextHead.x === food.x && nextHead.y === food.y) {
       this.body.push(this.head);
       this.head = nextHead;
-      eatCallback();
+      eaten = true;
     } else {
       this.body.push(this.head);
       this.tail = this.body.shift();
       this.head = nextHead;
     }
     console.debug("snake is ====> ", this.getSnake());
-    return this;
+    return [this, eaten];
   }
 }
 
