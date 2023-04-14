@@ -1,0 +1,41 @@
+.canvas2 {
+    margin-top: 3rem;
+    width: 300px;
+    border: 1px solid grey;
+}
+
+.canvas2 div {
+    display: flex;
+    justify-items: center;
+}
+
+.canvas2 span {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border: grey 1px solid;
+}
+
+.pretetris {
+    /*width: 200px;*/
+    border: 0px solid grey;
+}
+
+.pretetris div {
+    display: flex;
+    justify-items: center;
+}
+
+.pretetris span {
+    display: flex;
+    width: 30px;
+    height: 30px;
+    border: grey 1px solid;
+}
+
+.bg-dark {
+    background-color: black;
+}
+.bg-gray {
+    background-color: darkgray;
+}

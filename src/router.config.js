@@ -1,11 +1,12 @@
-import { Game as TicTacToeGame } from "./games/tictactoe";
+import {Game as TicTacToeGame} from "./games/tictactoe";
 import PuzzleGame from "./games/npuzzle";
 import TetrisGames from "./games/tetris";
-import { createBrowserRouter } from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import App from "./App";
-// import ReactTetris from "./games/tetris/new/ReactTetris";
+import ReactTetris from "./games/tetris/new/ReactTetris";
 import SnakeGame from "./games/snake";
 import ReactSnakeGame from './games/snake/react/SnakeGame';
+import Tetris2 from "./games/tetris/react/Tetris2";
 
 export const routeConfig = [
   {
@@ -20,10 +21,14 @@ export const routeConfig = [
     path: "/tetris",
     name: "俄罗斯方块",
   },
-  // {
-  //   path: "/react_tetris",
-  //   name: "俄罗斯方块(react)",
-  // },
+  {
+    path: "/tetris2",
+    name: "俄罗斯方块2",
+  },
+  {
+    path: "/react_tetris",
+    name: "俄罗斯方块(react)",
+  },
   {
     path: "/h5_snake",
     name: "贪吃蛇(H5 Canvas)",
@@ -37,31 +42,35 @@ export const routeConfig = [
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <App/>,
     children: [
       {
         path: '/tac',
-        element: <TicTacToeGame />,
+        element: <TicTacToeGame/>,
       },
       {
         path: '/nPuzzle',
-        element: <PuzzleGame />,
+        element: <PuzzleGame/>,
       },
       {
         path: '/tetris',
-        element: <TetrisGames />,
+        element: <TetrisGames/>,
       },
-      // {
-      //   path: '/react_tetris',
-      //   element: <ReactTetris />,
-      // },
+      {
+        path: '/tetris2',
+        element: <Tetris2/>,
+      },
+      {
+        path: '/react_tetris',
+        element: <ReactTetris/>,
+      },
       {
         path: '/h5_snake',
-        element: <SnakeGame />,
+        element: <SnakeGame/>,
       },
       {
         path: '/react_snake',
-        element: <ReactSnakeGame />,
+        element: <ReactSnakeGame/>,
       },
     ]
   },
