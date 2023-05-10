@@ -43,6 +43,11 @@ class TetrisGame {
     this.preCanvas.show(this.preTetris.body);
   }
 
+  erase () {
+    this.canvas.erase()
+    this.preCanvas.erase()
+  }
+
   /**
    * 创建新的方块
    *

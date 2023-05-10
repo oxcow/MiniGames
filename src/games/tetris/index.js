@@ -1,30 +1,34 @@
-import React, {useEffect} from "react";
-import './index.css';
-import TetrisGame from "./TetrisGame";
-import GameContainer from "../../components/GameContainer";
+import React, { useEffect } from 'react'
+import './index.css'
+import TetrisGame from './TetrisGame'
+import GameContainer from '../../components/GameContainer'
 
-export default function TetrisGames() {
-  let oTetrisGame;
+export default function TetrisGames () {
 
   useEffect(() => {
-    if (!oTetrisGame) {
-      oTetrisGame = new TetrisGame();
-      oTetrisGame.preload();
-      document.onkeydown = function (event) {
-        oTetrisGame.keyboardEventsListeners(event);
-      };
-      document.getElementById('start').onclick = function () {
-        oTetrisGame.start();
-      };
-      document.getElementById('stop').onclick = function () {
-        oTetrisGame.stop();
-      };
-      document.getElementById('restart').onclick = function () {
-        oTetrisGame.reset();
-      };
+
+    const oTetrisGame = new TetrisGame()
+    oTetrisGame.preload()
+
+    const handleKeyboardEvents = e => oTetrisGame.keyboardEventsListeners(e)
+
+    window.addEventListener('keydown', handleKeyboardEvents)
+
+    document.getElementById('start').onclick = function () {
+      oTetrisGame.start()
+    }
+    document.getElementById('stop').onclick = function () {
+      oTetrisGame.stop()
+    }
+    document.getElementById('restart').onclick = function () {
+      oTetrisGame.reset()
     }
 
-  }, [oTetrisGame]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyboardEvents)
+      oTetrisGame.erase()
+    }
+  }, [])
 
   return (
     <GameContainer title="纯JS实现俄罗斯方块">

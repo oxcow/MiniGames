@@ -34,6 +34,15 @@ class Canvas {
     }
     oDiv_canvas.appendChild(oFragment);
   }
+
+  erase () {
+    let oDiv_canvas = document.getElementById(this.offset);
+    if(oDiv_canvas){
+      while (oDiv_canvas.firstChild) {
+        oDiv_canvas.removeChild(oDiv_canvas.firstChild);
+      }
+    }
+  }
 }
 
 /**
@@ -79,6 +88,15 @@ class PreCanvas {
       const oE = document.getElementById(`pre_${i}`);
       if (oE) {
         oE.style.background = 'gray';
+      }
+    }
+  }
+
+  erase () {
+    let oDiv_preCanvas = document.getElementById(this.offset)
+    if (oDiv_preCanvas) {
+      while (oDiv_preCanvas.firstChild) {
+        oDiv_preCanvas.removeChild(oDiv_preCanvas.firstChild);
       }
     }
   }
