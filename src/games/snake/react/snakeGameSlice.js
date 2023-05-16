@@ -1,43 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit'
-import Snake, { Point } from './Snake'
+import Snake from './Snake'
 
 const initialState = {
-  dataMatrix: [],
+  snake: {
+    direction: null,
+    body: [
+      [9, 10],//tail
+      [10, 10], [11, 10], //body
+      [12, 10],//head
+    ],
+  },
+  food: { x: 22, y: 10 },
   timer: null,
-  snake: new Snake(new Point(9, 10), new Point(12, 10),
-      [new Point(10, 10), new Point(11, 10)]),
-  food: new Point(22, 10),
   score: 0,
+  direction: null,
 }
+
 export const snakeGameSlice = createSlice({
   name: 'snakeGame',
   initialState,
   reducers: {
-    newFood: state => {
+    setSnake: (state, action) => {
+      state.snake = { ...state.snake, ...action.payload }
+    },
+    setFood: state => {
       const x = Math.floor(Math.random() * 30)
       const y = Math.floor(Math.random() * 20)
-      state.food = new Point(x, y)
+      state.food = { x, y }
     },
-    changeScore: (state, action) => {
-      state.score = action.payload
+    incScoreBy: (state, action) => {
+      state.score += action.payload
     },
     setTimer: (state, action) => {
+      if (state.timer) {
+        clearInterval(state.timer)
+      }
       state.timer = action.payload
     },
-    changeDirection: (state, action) => {
-      state.snake.changeDirection(action.payload)
-    },
-    renderGame: (state) => {
-      const _dataMatrix = []
-      for (let i = 0; i < 20; i++) {
-        _dataMatrix.push(new Array(30).fill(0))
-      }
-      for (const point of state.snake.getSnake()) {
-        _dataMatrix[point.y][point.x] = 1
-      }
-      state.dataMatrix = _dataMatrix
-    },
     reset: state => {
+      state.timer = null
+      state.score = 0
       state.food = initialState.food
       state.snake = initialState.snake
     },
@@ -45,49 +47,52 @@ export const snakeGameSlice = createSlice({
 })
 
 export const {
-  newFood,
-  changeScore,
-  renderGame,
+  setSnake,
+  setFood,
+  incScoreBy,
   setTimer,
   reset,
-  changeDirection,
 } = snakeGameSlice.actions
 
-export const selectDataMatrix = (state) => state.snakeGame.dataMatrix
+export const selectSnake = state => state.snakeGame.snake
 export const selectFood = (state) => state.snakeGame.food
-const selectSnake = state => state.snakeGame.snake
 
 export default snakeGameSlice.reducer
 
-export const calcSpeed = (score) => {
-  return 1000 - score * 5
+export const changeDirection = (code) => (dispatch) => {
+  dispatch(setSnake({ direction: code }))
 }
 
 const moveAndEat = () => (dispatch, getState) => {
-  const [_snake, eaten] = selectSnake(getState()).moveAndEat(selectFood(getState()))
+  const snake = selectSnake(getState())
+  const snakeClazz = new Snake(snake.body)
+  snakeClazz.moving(snake.direction)
 
-  if (eaten) {
-    dispatch(newFood())
-    const score = getState().snakeGame.score + 10
-    dispatch(changeScore(score))
-    clearInterval(getState().snakeGame.timer)
-    dispatch(
-        setTimer(
-            setInterval(() => {
-              dispatch(moveAndEat())
-              dispatch(renderGame())
-            }, calcSpeed(score)),
-        ),
-    )
+  const food = selectFood(getState())
+
+  if (snakeClazz.head[0] === food.x && snakeClazz.head[1] === food.y) {
+    const body = [[food.x, food.y], ...snakeClazz.getSnake()]
+    dispatch(setSnake({ body }))
+
+    // eaten food
+    dispatch(setFood())
+    dispatch(incScoreBy(10))
+    dispatch(animationFrame())
+  } else {
+    dispatch(setSnake({ body: snakeClazz.getSnake() }))
   }
+}
+
+export const calcSpeed = () => (dispatch, getState) => {
+  const score = getState().snakeGame.score
+  return 1000 - score * 5
 }
 
 export const animationFrame = () => (dispatch, getState) => {
   if (!getState().snakeGame.timer) {
     const timerId = setInterval(() => {
       dispatch(moveAndEat())
-      dispatch(renderGame())
-    }, 1000)
+    }, dispatch(calcSpeed()))
     dispatch(setTimer(timerId))
   }
 }
