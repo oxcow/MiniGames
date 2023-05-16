@@ -6,10 +6,8 @@ import {
   selectSnake,
   selectFood,
   changeDirection,
-  animationFrame,
-  setTimer,
   calcSpeed,
-  reset,
+  changeGameStatus,
 } from './snakeGameSlice'
 
 const ReactSnakeGame = () => {
@@ -17,30 +15,20 @@ const ReactSnakeGame = () => {
   const snake = useSelector(selectSnake)
   const food = useSelector(selectFood)
   const score = useSelector(state => state.snakeGame.score)
+  const gamsStatus = useSelector(state => state.snakeGame.status)
 
   const dispatch = useDispatch()
 
-  const handleStart = (e) => {
-    e.preventDefault()
-    dispatch(animationFrame())
-  }
-
-  const handleStop = (e) => {
-    e.preventDefault()
-    dispatch(setTimer(null))
-  }
-
-  const handleReset = e => {
-    e.preventDefault()
-    dispatch(reset())
-  }
+  const handleStart = () => dispatch(changeGameStatus('start'))
+  const handleStop = () => dispatch(changeGameStatus('stop'))
+  const handleReset = () => dispatch(changeGameStatus('reset'))
 
   useEffect(() => {
     const handleKeydownEvent = e => dispatch(changeDirection(e.code))
     window.addEventListener('keydown', handleKeydownEvent)
     return () => {
       window.removeEventListener('keydown', handleKeydownEvent)
-      dispatch(reset())
+      dispatch(changeGameStatus('init'))
     }
   }, [dispatch])
 
@@ -65,6 +53,7 @@ const ReactSnakeGame = () => {
 
   return (
       <GameContainer title="Snake (React)">
+        <h5>Game Status: {gamsStatus}</h5>
         <div className="column col-12">
           <button onClick={handleStart} className="btn btn-success">开始</button>
           <button onClick={handleStop} className="btn btn-error ml-2">暂停

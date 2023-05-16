@@ -14,6 +14,7 @@ const initialState = {
   timer: null,
   score: 0,
   direction: null,
+  status: 'init',
 }
 
 export const snakeGameSlice = createSlice({
@@ -43,6 +44,9 @@ export const snakeGameSlice = createSlice({
       state.food = initialState.food
       state.snake = initialState.snake
     },
+    setStatus: (state, action) => {
+      state.status = action.payload
+    },
   },
 })
 
@@ -52,6 +56,7 @@ export const {
   incScoreBy,
   setTimer,
   reset,
+  setStatus,
 } = snakeGameSlice.actions
 
 export const selectSnake = state => state.snakeGame.snake
@@ -67,6 +72,20 @@ const moveAndEat = () => (dispatch, getState) => {
   const snake = selectSnake(getState())
   const snakeClazz = new Snake(snake.body)
   snakeClazz.moving(snake.direction)
+
+  if (snakeClazz.head[0] < 0 || snakeClazz.head[0] >= 30
+      || snakeClazz.head[1] < 0 || snakeClazz.head[1] >= 20) {
+    console.log('game over')
+    dispatch(changeGameStatus('GameOver'))
+    return
+  }
+
+  if (snakeClazz.body.find(
+      n => n[0] === snakeClazz.head[0] && n[1] === snakeClazz.head[1])) {
+    console.log('eat self')
+    dispatch(changeGameStatus('GameOver-EatSelf'))
+    return
+  }
 
   const food = selectFood(getState())
 
@@ -88,11 +107,28 @@ export const calcSpeed = () => (dispatch, getState) => {
   return 1000 - score * 5
 }
 
-export const animationFrame = () => (dispatch, getState) => {
+const animationFrame = () => (dispatch, getState) => {
   if (!getState().snakeGame.timer) {
     const timerId = setInterval(() => {
       dispatch(moveAndEat())
     }, dispatch(calcSpeed()))
     dispatch(setTimer(timerId))
   }
+}
+
+export const changeGameStatus = (status) => (dispatch, getState) => {
+  if (getState().snakeGame.status === status) {
+    return
+  }
+  if (status === 'start') {
+    dispatch(animationFrame())
+  } else if (status === 'stop') {
+    dispatch(setTimer(null))
+  } else if (status === 'GameOver' || status === 'GameOver-EatSelf') {
+    dispatch(setTimer(null))
+  } else {
+    dispatch(setTimer(null))
+    dispatch(reset())
+  }
+  dispatch(setStatus(status))
 }
