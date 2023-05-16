@@ -1,11 +1,9 @@
-'use strict';
-
 const Matrix = new Array(20);
 for (let i = 0; i < 20; i++) {
   Matrix.push(new Array(10).fill(0));
 }
-console.log("Matrix =>", Matrix);
-console.log('------------------------');
+console.debug("Matrix =>", Matrix);
+console.debug('------------------------');
 
 class Point {
   constructor(x, y) {
@@ -14,11 +12,11 @@ class Point {
   }
 }
 
-class Tile extends Point {
-  constructor(x, y) {
-    super(x, y);
-  }
-}
+// class Tile extends Point {
+//   constructor(x, y) {
+//     super(x, y);
+//   }
+// }
 
 class TileCoordinate {
   constructor(x, y, v) {
