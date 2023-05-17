@@ -15,13 +15,17 @@ const ReactSnakeGame = () => {
   const snake = useSelector(selectSnake)
   const food = useSelector(selectFood)
   const score = useSelector(state => state.snakeGame.score)
-  const gamsStatus = useSelector(state => state.snakeGame.status)
+  const gamesStatus = useSelector(state => state.snakeGame.status)
 
   const dispatch = useDispatch()
 
   const handleStart = () => dispatch(changeGameStatus('start'))
   const handleStop = () => dispatch(changeGameStatus('stop'))
   const handleReset = () => dispatch(changeGameStatus('reset'))
+  const handleGameOver = () => {
+    alert('Game Over!')
+    handleReset()
+  }
 
   useEffect(() => {
     const handleKeydownEvent = e => dispatch(changeDirection(e.code))
@@ -53,12 +57,16 @@ const ReactSnakeGame = () => {
 
   return (
       <GameContainer title="Snake (React)">
-        <h5>Game Status: {gamsStatus}</h5>
+        {/*<h5>Game Status: {gamesStatus}</h5>*/}
         <div className="column col-12">
-          <button onClick={handleStart} className="btn btn-success">开始</button>
-          <button onClick={handleStop} className="btn btn-error ml-2">暂停
+          <button onClick={handleStart} className="btn btn-success"
+                  disabled={gamesStatus === 'start'}>开始
           </button>
-          <button onClick={handleReset} className="btn btn-link ml-2">重新开始
+          <button onClick={handleStop} className="btn btn-error ml-2"
+                  disabled={gamesStatus === 'stop'}>暂停
+          </button>
+          <button onClick={handleReset} className="btn btn-link ml-2"
+                  disabled={gamesStatus === 'reset'}>重新开始
           </button>
           <Scoreboard score={score} speed={dispatch(calcSpeed())}/>
         </div>
@@ -67,6 +75,7 @@ const ReactSnakeGame = () => {
             {canvasPixels().map(cols => (cols.map(col => col)))}
           </div>
         </div>
+        {gamesStatus.startsWith('GameOver') && handleGameOver()}
       </GameContainer>
   )
 }
