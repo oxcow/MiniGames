@@ -68,7 +68,7 @@ export const tetris2Slice = createSlice({
       state.nextTetris = randomTetris()
     },
     rotateTetris: (state) => {
-      const { px, py, tetris } = state.currentTetris
+      const { py, tetris } = state.currentTetris
       const m = tetris.length
       const n = tetris[0].length
       let newTetris = []
