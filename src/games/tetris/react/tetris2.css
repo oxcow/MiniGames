@@ -16,17 +16,17 @@
     border: grey 1px solid;
 }
 
-.pretetris {
+.tetris {
     /*width: 200px;*/
-    border: 0px solid grey;
+    border: 0 solid grey;
 }
 
-.pretetris div {
+.tetris div {
     display: flex;
     justify-items: center;
 }
 
-.pretetris span {
+.tetris span {
     display: flex;
     width: 30px;
     height: 30px;
@@ -36,6 +36,7 @@
 .bg-dark {
     background-color: black;
 }
+
 .bg-gray {
     background-color: darkgray;
 }

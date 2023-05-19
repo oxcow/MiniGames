@@ -1,7 +1,4 @@
-import {useSelector} from "react-redux";
-
-const Scoreboard = () => {
-  const {score, level} = useSelector((state) => state.tetris2.scoreboard);
+const Scoreboard = ({score,level}) => {
   return (
     <div className="scoreboard">
       <div>分数:{score}</div>
