@@ -1,27 +1,62 @@
 import GameContainer from '../../../components/GameContainer'
 import './index.scss'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectSnake,
   selectFood,
   changeDirection,
-  calcSpeed,
   changeGameStatus,
+  moveAndEat,
 } from './snakeGameSlice'
 
 const ReactSnakeGame = () => {
+
+  let timerAndSpeedRef = useRef({ timerId: null, speed: 1000 })
 
   const snake = useSelector(selectSnake)
   const food = useSelector(selectFood)
   const score = useSelector(state => state.snakeGame.score)
   const gamesStatus = useSelector(state => state.snakeGame.status)
 
+  const speed = Math.max(100, 1000 - score * 50)
+
   const dispatch = useDispatch()
 
-  const handleStart = () => dispatch(changeGameStatus('start'))
-  const handleStop = () => dispatch(changeGameStatus('stop'))
-  const handleReset = () => dispatch(changeGameStatus('reset'))
+  const clearTimer = () => {
+    if (timerAndSpeedRef.current.timerId) {
+      clearInterval(timerAndSpeedRef.current.timerId)
+      timerAndSpeedRef.current = { timerId: null, speed: 1000 }
+    }
+  }
+
+  const animationFrame = (speed) => {
+    timerAndSpeedRef.current.speed = speed
+    timerAndSpeedRef.current.timerId = setInterval(() => {
+      dispatch(moveAndEat())
+    }, speed)
+  }
+
+  if (speed !== timerAndSpeedRef.current.speed) {
+    clearTimer()
+    animationFrame(speed)
+  }
+
+  const handleStart = () => {
+    if (!timerAndSpeedRef.current.timerId) {
+      dispatch(changeGameStatus('start'))
+      animationFrame(speed)
+    }
+  }
+  const handleStop = () => {
+    dispatch(changeGameStatus('stop'))
+    clearTimer()
+  }
+  const handleReset = () => {
+    dispatch(changeGameStatus('reset'))
+    clearTimer()
+  }
+
   const handleGameOver = () => {
     alert('Game Over!')
     handleReset()
@@ -57,7 +92,6 @@ const ReactSnakeGame = () => {
 
   return (
       <GameContainer title="Snake (React)">
-        {/*<h5>Game Status: {gamesStatus}</h5>*/}
         <div className="column col-12">
           <button onClick={handleStart} className="btn btn-success"
                   disabled={gamesStatus === 'start'}>开始
@@ -68,7 +102,7 @@ const ReactSnakeGame = () => {
           <button onClick={handleReset} className="btn btn-link ml-2"
                   disabled={gamesStatus === 'reset'}>重新开始
           </button>
-          <Scoreboard score={score} speed={dispatch(calcSpeed())}/>
+          <Scoreboard score={score} speed={speed}/>
         </div>
         <div className="column col-12 border">
           <div className="canvas">

@@ -11,9 +11,7 @@ const initialState = {
     ],
   },
   food: { x: 22, y: 10 },
-  timer: null,
   score: 0,
-  direction: null,
   status: 'init',
 }
 
@@ -39,7 +37,6 @@ export const snakeGameSlice = createSlice({
       state.timer = action.payload
     },
     reset: state => {
-      state.timer = null
       state.score = 0
       state.food = initialState.food
       state.snake = initialState.snake
@@ -54,7 +51,6 @@ export const {
   setSnake,
   setFood,
   incScoreBy,
-  setTimer,
   reset,
   setStatus,
 } = snakeGameSlice.actions
@@ -68,27 +64,24 @@ export const changeDirection = (code) => (dispatch) => {
   dispatch(setSnake({ direction: code }))
 }
 
-const moveAndEat = () => (dispatch, getState) => {
+export const moveAndEat = () => (dispatch, getState) => {
   const snake = selectSnake(getState())
   const snakeClazz = new Snake(snake.body)
   snakeClazz.moving(snake.direction)
 
   if (snakeClazz.head[0] < 0 || snakeClazz.head[0] >= 30
       || snakeClazz.head[1] < 0 || snakeClazz.head[1] >= 20) {
-    console.log('game over')
     dispatch(changeGameStatus('GameOver'))
     return
   }
 
   if (snakeClazz.body.find(
       n => n[0] === snakeClazz.head[0] && n[1] === snakeClazz.head[1])) {
-    console.log('eat self')
     dispatch(changeGameStatus('GameOver-EatSelf'))
     return
   }
 
   const food = selectFood(getState())
-
   if (snakeClazz.head[0] === food.x && snakeClazz.head[1] === food.y) {
     const body = [[food.x, food.y], ...snakeClazz.getSnake()]
     dispatch(setSnake({ body }))
@@ -96,23 +89,8 @@ const moveAndEat = () => (dispatch, getState) => {
     // eaten food
     dispatch(setFood())
     dispatch(incScoreBy(10))
-    dispatch(animationFrame())
   } else {
     dispatch(setSnake({ body: snakeClazz.getSnake() }))
-  }
-}
-
-export const calcSpeed = () => (dispatch, getState) => {
-  const score = getState().snakeGame.score
-  return 1000 - score * 5
-}
-
-const animationFrame = () => (dispatch, getState) => {
-  if (!getState().snakeGame.timer) {
-    const timerId = setInterval(() => {
-      dispatch(moveAndEat())
-    }, dispatch(calcSpeed()))
-    dispatch(setTimer(timerId))
   }
 }
 
@@ -120,15 +98,8 @@ export const changeGameStatus = (status) => (dispatch, getState) => {
   if (getState().snakeGame.status === status) {
     return
   }
-  if (status === 'start') {
-    dispatch(animationFrame())
-  } else if (status === 'stop') {
-    dispatch(setTimer(null))
-  } else if (status === 'GameOver' || status === 'GameOver-EatSelf') {
-    dispatch(setTimer(null))
-  } else {
-    dispatch(setTimer(null))
+  dispatch(setStatus(status))
+  if (status === 'reset') {
     dispatch(reset())
   }
-  dispatch(setStatus(status))
 }
